@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { auth } from '@/util/firebase';
 import { useRouter } from 'next/navigation';
+import useAuth from '@/hooks/useAuth';
 
 const Page = () => {
   
@@ -44,20 +45,12 @@ const Page = () => {
   const [clubs, setClubs] = useState<Club[]>([])
   const [picks, setPicks] = useState<string[]>([])
   const router = useRouter();
-
+const { user, loading } = useAuth()
   useEffect(() => {
-    const user = auth.currentUser
-    if(!user) {
-      router.push("/auth")
+    if(!user && !loading) {
+      router.push("/")
     }
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        console.log("User: ", user)
-      } else {
-        router.push('/auth')
-      }
-    })
-
+    
   }, [])
 
 
@@ -98,7 +91,7 @@ if (auth.currentUser != null) {
 
                   if (result) {
                     alert("Thanks for voting !")
-                    router.push('/')
+                    router.push('/home')
                   }
 
 

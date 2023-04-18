@@ -5,14 +5,15 @@ import { usePathname } from 'next/navigation';
 import { auth, db } from '@/util/firebase';
 import { fetchUserVotes } from '@/util/db';
 import { DocumentData, collection, onSnapshot, query, where } from 'firebase/firestore';
+import useAuth from '@/hooks/useAuth';
 
 function Tracker() {
   const [votes, setVotes] = React.useState<number>(0)
   const pathname = usePathname();
-
+const {user, loading} = useAuth();
   useEffect(() => {
-    if(auth.currentUser?.uid != null) {
-      const q = query(collection(db, "votes"), where("userId", "==", auth.currentUser.uid));
+    if(user && !loading) {
+      const q = query(collection(db, "votes"), where("userId", "==", auth.currentUser?.uid));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const arr: Vote[] = [];
         querySnapshot.forEach((doc : any) => {
@@ -24,9 +25,9 @@ function Tracker() {
       return unsubscribe;
     }
 
-  }, [])
+  }, [user, loading])
 
-  if (pathname == "/auth") return null
+  if (pathname == "/") return null
   if (auth.currentUser == null) return null
 
 

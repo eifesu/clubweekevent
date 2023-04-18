@@ -16,7 +16,7 @@ function Category({category, voted} : Props) {
   return (
     <button 
     onClick ={() => router.push(`/${category.id}`)}
-    key={category.id} disabled={!voted} className={`bg-tertiary active:bg-quaternary transition-all ease-out p-2 rounded-xl flex flex-col items-center justify-center gap-2 opacity-${voted ? '20' : '100'}`}>
+    key={category.id} disabled={voted} className={`bg-tertiary active:bg-quaternary transition-all ease-out p-2 rounded-xl flex flex-col items-center justify-center gap-2 opacity-${voted ? '20' : '100'}`}>
     <Icon icon={category.emoji} fontSize={50}/>
     <h1 className="text-center" style={{fontSize: 10}}>{category.name}</h1>
   </button>
