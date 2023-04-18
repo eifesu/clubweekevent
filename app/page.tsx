@@ -17,7 +17,10 @@ const Page = () => {
 
 
   function authenticate() {
-    signInWithRedirect(auth, provider)
+    signInWithRedirect(auth, provider).then((res) => {
+      router.push('/home')
+    }
+    )
   };
 
   const {user, loading} = useAuth();
@@ -26,7 +29,7 @@ const Page = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         // If user is logged in, redirect to dashboard page
-        router.replace('/home'); // Replace current URL with '/dashboard'
+        router.push('/home'); // Replace current URL with '/dashboard'
       } else {
       }
     });
