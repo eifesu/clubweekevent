@@ -4,6 +4,7 @@ import { GoogleAuthProvider, getRedirectResult, signInWithRedirect } from "fireb
 import { auth } from '@/util/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import useAuth from '@/hooks/useAuth';
 
 const Page = () => {
   const router = useRouter()
@@ -19,18 +20,20 @@ const Page = () => {
     signInWithRedirect(auth, provider)
   };
 
-  useEffect(() => {
-    getRedirectResult(auth)
-      .then((result : any) => {
-        console.log("Logged in as ", result.user)
-        router.push("/home")
-      }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
-  }, [])
-  
+  const {user, loading} = useAuth();
 
+ useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // If user is logged in, redirect to dashboard page
+        router.replace('/home'); // Replace current URL with '/dashboard'
+      } else {
+      }
+    });
+
+    // Unsubscribe from the authentication state listener on unmount
+    return () => unsubscribe();
+  }, [router]);
 
   return (
     <div className="h-full flex flex-col items-center justify-center p-8 gap-8">
