@@ -18,10 +18,9 @@ function Tracker() {
         querySnapshot.forEach((doc : any) => {
           arr.push(doc.data());
         });
-        console.log(arr)
+        console.log("Times voted: ", arr.length)
         setVotes(arr.length)
       });
-
       return unsubscribe;
     }
 

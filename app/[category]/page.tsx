@@ -7,44 +7,58 @@ import { usePathname } from 'next/navigation';
 import { auth } from '@/util/firebase';
 import { useRouter } from 'next/navigation';
 
-interface Props {
-  clubs: Club[]
-  name: string
-  picks: string[],
-  setPicks: (picks: string[]) => void
-}
-
-const List = ({ clubs, name, picks, setPicks }: Props) => {
-  return (
-    <>
-      <h1 className="text-start w-full text-lg mt-4">
-        {name}{" "}
-        <b className="text-lg opacity-20">{clubs.length}</b>
-      </h1>
-      <div className="w-full flex flex-col h-full gap-3 ">
-        {clubs ?
-          clubs.map((club) => (
-            <>
-              <Participant
-                key={club.id}
-                club={club}
-                picks={picks}
-                setPicks={setPicks}
-              />
-            </>
-          )) : null}
-      </div>
-    </>
-  )
-}
-
 const Page = () => {
+  
+  interface Props {
+    clubs: Club[]
+    name: string
+    picks: string[],
+    setPicks: (picks: string[]) => void
+  }
+  
+  const List = ({ clubs, name, picks, setPicks }: Props) => {
+    return (
+      <>
+        <h1 className="text-start w-full text-lg mt-4">
+          {name}{" "}
+          <b className="text-lg opacity-20">{clubs.length}</b>
+        </h1>
+        <div className="w-full flex flex-col h-full gap-3 ">
+          {clubs ?
+            clubs.map((club) => (
+              <>
+                <Participant
+                  key={club.id}
+                  club={club}
+                  picks={picks}
+                  setPicks={setPicks}
+                />
+              </>
+            )) : null}
+        </div>
+      </>
+    )
+  }
   const pathname = usePathname().charAt(1).trim()
   const [metadata, setMetadata] = useState<Category>()
   const [clubs, setClubs] = useState<Club[]>([])
   const [picks, setPicks] = useState<string[]>([])
   const router = useRouter();
 
+  useEffect(() => {
+    const user = auth.currentUser
+    if(!user) {
+      router.push("/auth")
+    }
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("User: ", user)
+      } else {
+        router.push('/auth')
+      }
+    })
+
+  }, [])
 
 
   useEffect(() => {
@@ -56,11 +70,11 @@ const Page = () => {
       setClubs(c)
     }
     fetch()
-  }, [])
+  }, [pathname])
 
 
-  if (!auth.currentUser) return router.push('/auth')
-  else if (auth.currentUser != null) {
+
+if (auth.currentUser != null) {
     const uid = auth.currentUser.uid
 
     return (

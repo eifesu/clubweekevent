@@ -3,38 +3,38 @@ import Category from "@/components/Category";
 import { fetchCategories, fetchUserVotes, fetchVotes } from "@/util/db";
 import { auth } from "@/util/firebase";
 import { useRouter } from "next/navigation";
-import { Router } from "next/router";
 import { useEffect, useState } from "react";
+  
 
-interface Props {
-  categories: Category[]
-  votes: Vote[]
-}
-
-const Categories = ({ categories, votes }: Props) => {
-  return (
-    <>
-      <h1 className="text-start w-full text-xl mt-4">
-        CATEGORIES{" "}
-        <b className="text-lg opacity-20">{categories.length}</b>
-      </h1>
-      <div className="w-full h-full grid grid-cols-2 gap-2">
-        {categories &&
-          categories.map((category) => (
-            <Category
-              key={category.id}
-              category={category}
-              voted={votes.some(vote => vote.category === category.id)}
-            />
-          ))}
-      </div>
-    </>
-  )
-}
 const Home = () => {
+  interface Props {
+    categories: Category[]
+    votes: Vote[]
+  }
+  const Categories = ({ categories, votes }: Props) => {
+    return (
+      <>
+        <h1 className="text-start w-full text-xl mt-4">
+          CATEGORIES{" "}
+          <b className="text-lg opacity-20">{categories.length}</b>
+        </h1>
+        <div className="w-full h-full grid grid-cols-2 gap-2">
+          {categories &&
+            categories.map((category) => (
+              <Category
+                key={category.id}
+                category={category}
+                voted={votes.some(vote => vote.category === category.id)}
+              />
+            ))}
+        </div>
+      </>
+    )
+  }
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([])
   const [votes, setVotes] = useState<Vote[]>([])
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -45,6 +45,7 @@ const Home = () => {
     })
 
   }, [])
+
   useEffect(() => {
     async function fetchData() {
       const categories = await fetchCategories();
@@ -56,7 +57,6 @@ const Home = () => {
 
   }, [])
 
-  if (!auth.currentUser) return router.push('/auth')
   return (
     <div className="h-full flex-1 p-4">
       <div className="p-4 h-full bg-secondary rounded-[32px] relative flex flex-col gap-2 items-center">

@@ -23,14 +23,13 @@ function Button() {
 function Navigation() {
   const pathname = usePathname();
   if (pathname == "/auth") return null
-  if (auth.currentUser == null) return null
   return (
     <div>
         <div className="bg-quaternary text-white p-2 text-[8px] opacity-50">@chrisyesso</div>
         <nav className='flex items-center justify-between p-4'>
             <div className="text-white">
-                <h1>{auth.currentUser.displayName?.split(" ")[auth.currentUser.displayName?.split(" ").length - 1]}</h1>
-                <h2 className='text-[8px] opacity-50'>{auth.currentUser.displayName?.split(" ")[auth.currentUser.displayName?.split(" ").length - 2]}</h2>
+                <h1>{ auth.currentUser ? auth.currentUser.displayName?.split(" ")[auth.currentUser.displayName?.split(" ").length - 1] : ''}</h1>
+                <h2 className='text-[8px] opacity-50'>{auth.currentUser ? auth.currentUser.displayName?.split(" ")[auth.currentUser.displayName?.split(" ").length - 2] : ''}</h2>
             </div>
             <Button />
         </nav>
