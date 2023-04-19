@@ -45,8 +45,6 @@ const Page = () => {
   useEffect(() => {
     getRedirectResult(auth)
       .then((result) => {
-        router.replace('/home')
-        // The user is authenticated, handle the result
         if(result) {
           router.replace('/home')
         }
