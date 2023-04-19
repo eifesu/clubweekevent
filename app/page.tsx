@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { GoogleAuthProvider, getAdditionalUserInfo, getRedirectResult, signInWithRedirect } from "firebase/auth";
+import { GoogleAuthProvider, getAdditionalUserInfo, getRedirectResult, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import { auth } from '@/util/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -17,7 +17,7 @@ const Page = () => {
 
 
   function authenticate() {
-    signInWithRedirect(auth, provider).then((res) => {
+    signInWithPopup(auth, provider).then((res) => {
       router.push('/home')
     }
     )
