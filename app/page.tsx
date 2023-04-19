@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { GoogleAuthProvider, getRedirectResult, signInWithRedirect } from "firebase/auth";
+import { GoogleAuthProvider, getAdditionalUserInfo, getRedirectResult, signInWithRedirect } from "firebase/auth";
 import { auth } from '@/util/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -25,16 +25,6 @@ const Page = () => {
 
   const {user, loading} = useAuth();
 
- useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if ((user || auth.currentUser)) {
-        // If user is logged in, redirect to dashboard page
-        router.push('/home'); // Replace current URL with '/dashboard'
-      } else {
-      }
-    });
-  }, [user, auth]);
-
 
   useEffect(() => {
     console.log("User from page: ", user);
@@ -43,17 +33,19 @@ const Page = () => {
   
 
   useEffect(() => {
-    getRedirectResult(auth)
-      .then((result) => {
-        if(result) {
-          router.replace('/home')
-        }
-      })
-      .catch((error) => {
-        // The user is not authenticated, handle the error
-        console.log("Redirect error:", error);
-      });
-  }, [auth]);
+    async function listen() {
+      const result = await getRedirectResult(auth)
+      if (result) {
+        router.push("/home")
+        console.log(result)
+        const details = getAdditionalUserInfo(result)
+        console.log(details) // details.isNewUser to determine if a new or returning user
+      } else {
+        // Everything is fine
+      }
+    }
+    listen()
+  }, []);
 
   return (
     <div className="h-full flex flex-col items-center justify-center p-8 gap-8">
