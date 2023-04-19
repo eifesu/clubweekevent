@@ -26,11 +26,9 @@ const Page = () => {
   const {user, loading} = useAuth();
 
  useEffect(() => {
-   alert("Firing first useEffect")
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user && !loading) {
+      if ((user || auth.currentUser) && !loading) {
         // If user is logged in, redirect to dashboard page
-        alert("User is logged in")
         router.push('/home'); // Replace current URL with '/dashboard'
       } else {
       }
@@ -38,9 +36,7 @@ const Page = () => {
   }, [user, loading]);
 
   useEffect(() => {
-    alert("Firing second useEffect")
     if (user || auth.currentUser) {
-      alert("User is logged in")
       router.push("/home");
     }
   }, [user, loading]);
