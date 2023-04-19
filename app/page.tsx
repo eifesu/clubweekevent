@@ -5,8 +5,10 @@ import { auth } from '@/util/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import useAuth from '@/hooks/useAuth';
+import useSound from 'use-sound';
 
 const Page = () => {
+  const [play] = useSound("/tap.wav", {volume: 0.15});
   const router = useRouter()
   const provider = new GoogleAuthProvider();
 
@@ -17,6 +19,7 @@ const Page = () => {
 
 
   function authenticate() {
+    play();
     signInWithPopup(auth, provider).then((res) => {
       router.push('/home')
     }
@@ -49,7 +52,7 @@ const Page = () => {
 
   return (
     <div className="h-full flex flex-col items-center justify-center p-8 gap-8">
-      <Image src="/cwe.svg" width={100} height={100} alt="Logo" />
+      <Image src="/cwe.svg" className="animate-pulse" width={100} height={100} alt="Logo" />
       <button
         onClick={() => authenticate()}
         className="bg-primary w-full rounded-md text-md text-center p-4 active:brightness-50">

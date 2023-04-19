@@ -7,8 +7,10 @@ import { usePathname } from 'next/navigation';
 import { auth } from '@/util/firebase';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
+import useSound from 'use-sound'
 
 const Page = () => {
+  const [play] = useSound("/levelup.wav", {volume: 0.15});
   
   interface Props {
     clubs: Club[]
@@ -23,6 +25,9 @@ const Page = () => {
         <h1 className="text-start w-full text-lg mt-4">
           {name}{" "}
           <b className="text-lg opacity-20">{clubs.length}</b>
+        </h1>
+        <h1 className="text-start w-full text-sm">
+          RANK THE CLUBS IN ORDER
         </h1>
         <div className="w-full flex flex-col h-full gap-3 ">
           {clubs ?
@@ -81,6 +86,7 @@ if (auth.currentUser != null) {
               <List clubs={clubs} name={metadata.name} picks={picks} setPicks={setPicks} />
               {picks.length == 3 ? <button
                 onClick={async () => {
+                  play()
                   const result = await addVote({
                     userId: uid,
                     category: pathname,
