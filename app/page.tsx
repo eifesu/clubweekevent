@@ -36,10 +36,16 @@ const Page = () => {
   }, [user, loading]);
 
   useEffect(() => {
-    if (user || auth.currentUser) {
-      router.push("/home");
-    }
-  }, [user, loading]);
+    getRedirectResult(auth)
+      .then((result) => {
+        // The user is authenticated, handle the result
+        console.log("Redirect result:", result);
+      })
+      .catch((error) => {
+        // The user is not authenticated, handle the error
+        console.log("Redirect error:", error);
+      });
+  }, []);
 
   return (
     <div className="h-full flex flex-col items-center justify-center p-8 gap-8">
