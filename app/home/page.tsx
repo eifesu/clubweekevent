@@ -40,7 +40,7 @@ const Home = () => {
   
   useEffect(() => {
    console.log("Logging user from Home page: ", user)
-   if((!user && auth.currentUser) && loading) {
+   if((!user && !auth.currentUser) && loading) {
     console.log("User not defined", user)
      router.push("/") 
    }
