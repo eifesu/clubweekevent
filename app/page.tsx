@@ -27,24 +27,25 @@ const Page = () => {
 
  useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if ((user || auth.currentUser) && !loading) {
+      if ((user || auth.currentUser)) {
         // If user is logged in, redirect to dashboard page
         router.push('/home'); // Replace current URL with '/dashboard'
       } else {
       }
     });
-  }, [user, loading]);
+  }, [user, auth]);
 
 
   useEffect(() => {
     console.log("User from page: ", user);
     console.log("Loading from page: ", loading);
-  }, [])
+  }, [user, loading])
   
 
   useEffect(() => {
     getRedirectResult(auth)
       .then((result) => {
+        router.replace('/home')
         // The user is authenticated, handle the result
         if(result) {
           router.replace('/home')
@@ -54,7 +55,7 @@ const Page = () => {
         // The user is not authenticated, handle the error
         console.log("Redirect error:", error);
       });
-  }, []);
+  }, [auth]);
 
   return (
     <div className="h-full flex flex-col items-center justify-center p-8 gap-8">
