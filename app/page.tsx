@@ -35,6 +35,12 @@ const Page = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (user || auth.currentUser) {
+      router.push("/home");
+    }
+  }, []);
+
   return (
     <div className="h-full flex flex-col items-center justify-center p-8 gap-8">
       <Image src="/cwe.svg" width={100} height={100} alt="Logo" />
