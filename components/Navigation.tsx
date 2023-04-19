@@ -9,7 +9,10 @@ function Button() {
   switch (pathname) {
     case "/home":
       return <button 
-      onClick={() => auth.signOut()}
+      onClick={() => {
+        auth.signOut()
+        router.push('/')
+      }}
       className='border-[32] flex items-center justify-center border-2 border-white bg-transparent text-white text-[8px] p-2 px-4 rounded-[32px] active:border-transparent active:bg-primary hover:bg-primary hover:border-transparent transition-all ease-out'>
       Logout
   </button>
