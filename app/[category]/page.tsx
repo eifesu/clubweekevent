@@ -85,7 +85,8 @@ if (auth.currentUser != null) {
                 style={{ left: "calc(50% - 32px)" }}></div>
               <List clubs={clubs} name={metadata.name} picks={picks} setPicks={setPicks} />
               {picks.length == 3 ? <button
-                onClick={async () => {
+                onClick={async (e) => {
+                  e.currentTarget.disabled = true;
                   play()
                   const result = await addVote({
                     userId: uid,
