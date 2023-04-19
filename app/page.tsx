@@ -39,7 +39,7 @@ const Page = () => {
     getRedirectResult(auth)
       .then((result) => {
         // The user is authenticated, handle the result
-        console.log("Redirect result:", result);
+        router.push('/home');
       })
       .catch((error) => {
         // The user is not authenticated, handle the error
