@@ -1,9 +1,7 @@
 'use client'
 import Category from "@/components/Category";
 import useAuth from "@/hooks/useAuth";
-import { fetchCategories, fetchUserVotes, fetchVotes } from "@/util/db";
-import { auth } from "@/util/firebase";
-import { getRedirectResult } from "firebase/auth";
+import { fetchCategories, fetchUserVotes } from "@/util/db";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
   
@@ -33,6 +31,7 @@ const Home = () => {
       </>
     )
   }
+
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([])
   const [votes, setVotes] = useState<Vote[]>([])

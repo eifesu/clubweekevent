@@ -33,10 +33,7 @@ const Page = () => {
       } else {
       }
     });
-
-    // Unsubscribe from the authentication state listener on unmount
-    return () => unsubscribe();
-  }, [router]);
+  }, []);
 
   return (
     <div className="h-full flex flex-col items-center justify-center p-8 gap-8">
