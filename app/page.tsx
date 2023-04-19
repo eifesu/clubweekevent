@@ -35,6 +35,13 @@ const Page = () => {
     });
   }, [user, loading]);
 
+
+  useEffect(() => {
+    console.log("User from page: ", user);
+    console.log("Loading from page: ", loading);
+  }, [])
+  
+
   useEffect(() => {
     getRedirectResult(auth)
       .then((result) => {
