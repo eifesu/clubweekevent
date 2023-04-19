@@ -2,6 +2,7 @@
 import Category from "@/components/Category";
 import useAuth from "@/hooks/useAuth";
 import { fetchCategories, fetchUserVotes } from "@/util/db";
+import { auth } from "@/util/firebase";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
   
@@ -39,7 +40,7 @@ const Home = () => {
   
   useEffect(() => {
    console.log("Logging user from Home page: ", user)
-   if(!user && loading) {
+   if((!user && auth.currentUser) && loading) {
     console.log("User not defined", user)
      router.push("/") 
    }
