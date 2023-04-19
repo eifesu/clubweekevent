@@ -27,19 +27,21 @@ const Page = () => {
 
  useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
+      if (user && !loading) {
         // If user is logged in, redirect to dashboard page
+        alert("User is logged in")
         router.push('/home'); // Replace current URL with '/dashboard'
       } else {
       }
     });
-  }, []);
+  }, [user, loading]);
 
   useEffect(() => {
     if (user || auth.currentUser) {
+      alert("User is logged in")
       router.push("/home");
     }
-  }, []);
+  }, [user, loading]);
 
   return (
     <div className="h-full flex flex-col items-center justify-center p-8 gap-8">
