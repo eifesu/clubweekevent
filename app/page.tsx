@@ -40,7 +40,7 @@ const Page = () => {
       .then((result) => {
         // The user is authenticated, handle the result
         if(result) {
-          router.push('/home');
+          router.replace('/home')
         }
       })
       .catch((error) => {
